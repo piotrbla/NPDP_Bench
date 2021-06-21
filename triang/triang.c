@@ -193,80 +193,40 @@ if(kind==tstile)
 
 printf("tstile\n");
 
-
-
-
-if(1==1)
-{
-    for( c0 = 0; c0 <= min(1, N - 1); c0 += 1)
-    #pragma omp parallel for
-    for( c1 = max(0, c0 - (N - c0 + 14) / 15 + 1); c1 <= c0; c1 += 1)
-      for( c4 = c0 - c1; c4 <= min((N - 1) / 16, c0); c4 += 1)
-        #pragma ivdep
+if (N >= 1) {
+  lbp=0;
+  ubp=floord(N-1,16);
+#pragma omp parallel for private(lbv,ubv,t3,t4,t5,t6)
+  for (t2=lbp;t2<=ubp;t2++) {
+    for (t3=t2;t3<=floord(N-1,16);t3++) {
+      if (t2 == 0) {
+        for (t4=0;t4<=min(1,N-1);t4++) {
+          lbv=max(16*t3,t4);
+          ubv=min(N-1,16*t3+15);
+#pragma ivdep
 #pragma vector always
-        for( c8 = max(16 * c0 - 15 * c1, 16 * c4); c8 <= min(min(N - 1, 16 * c0 - 15 * c1 + 15), 16 * c4 + 15); c8 += 1)
-          table[c8-c1][c8] = 0.0;
-  for( c0 = 2; c0 < N; c0 += 1) {
-    #pragma omp parallel for
-    for( c1 = max(0, c0 - (N - c0 + 14) / 15 + 1); c1 <= 1; c1 += 1)
-      for( c4 = c0 - c1; c4 <= min((N - 1) / 16, c0); c4 += 1)
-        #pragma ivdep
+          for (t5=lbv;t5<=ubv;t5++) {
+            table[t5-t4][t5] = 0.0;;
+          }
+        }
+      }
+      for (t4=max(2,16*t2);t4<=min(N-1,16*t2+15);t4++) {
+        lbv=max(16*t3,t4);
+        ubv=min(N-1,16*t3+15);
+#pragma ivdep
 #pragma vector always
-        for( c8 = max(16 * c0 - 15 * c1, 16 * c4); c8 <= min(min(N - 1, 16 * c0 - 15 * c1 + 15), 16 * c4 + 15); c8 += 1)
-          table[c8-c1][c8] = 0.0;
-    #pragma omp parallel for
-    for( c1 = max(2, c0 - (N - c0 + 14) / 15 + 1); c1 <= c0; c1 += 1) {
-      for( c4 = c0 - c1 + c1 / 16; c4 <= min((N - 1) / 16, c0 - c1 + (c1 - 1) / 16 + 1); c4 += 1)
-        #pragma ivdep
-#pragma vector always
-        for( c8 = max(16 * c0 - 15 * c1, 16 * c4); c8 <= min(min(N - 1, 16 * c0 - 15 * c1 + 15), 16 * c4 + 15); c8 += 1)
-          table[c8-c1][c8] = INT_MAX;
-      for( c3 = 16 * c0 - 14 * c1; c3 <= min(N + c1 - 1, 16 * c0 - 14 * c1 + 15); c3 += 1)
-        for( c4 = (-2 * c1 + c3 + 1) / 16; c4 <= (-c1 + c3 - 1) / 16; c4 += 1)
-          for( c10 = max(-2 * c1 + c3 + 1, 16 * c4); c10 <= min(-c1 + c3 - 1, 16 * c4 + 15); c10 += 1)
-            table[(-c1+c3)-c1][(-c1+c3)] = MIN(table[(-c1+c3)-c1][(-c1+c3)], table[(-c1+c3)-c1][c10] + table[c10][(-c1+c3)] + cost((-c1+c3)-c1,(-c1+c3),c10));
+        for (t5=lbv;t5<=ubv;t5++) {
+          table[t5-t4][t5] = INT_MAX;
+        }
+      }
     }
   }
-
-}
-
-
-// ---------------------------------
-
-if(1==0){
-
-for( c0 = 0; c0 <= floord(N - 1, 16); c0 += 1) {
-  for( c3 = 0; c3 <= min(1, N - 16 * c0 - 1); c3 += 1)
-    for( c4 = c0; c4 <= min((N - 1) / 16, c0 + c3); c4 += 1)
-                #pragma ivdep
-#pragma vector always
-      for( c8 = max(16 * c0 + c3, 16 * c4); c8 <= min(min(N - 1, 16 * c0 + c3 + 15), 16 * c4 + 15); c8 += 1)
-        table[c8-c3][c8] = 0.0;
-  #pragma omp parallel for
-  for( c1 = max(0, c0 - (N + 13) / 16 + 1); c1 <= c0; c1 += 1) {
-    for( c3 = max(2, 16 * c1); c3 <= min(N - 16 * c0 + 16 * c1 - 1, 16 * c1 + 15); c3 += 1) {
-      if (c0 == 0 && c1 == 0)
-        for( c6 = 2; c6 <= c3 / 2; c6 += 1)
-          for( c10 = c3 - 2 * c6 + 1; c10 < c3 - c6; c10 += 1)
-            table[(c3-c6)-c6][(c3-c6)] = MIN(table[(c3-c6)-c6][(c3-c6)], table[(c3-c6)-c6][c10] + table[c10][(c3-c6)] + cost((c3-c6)-c6,(c3-c6),c10));
-      for( c4 = c0; c4 <= min((N - 1) / 16, c0 - c1 + (c3 - 1) / 16 + 1); c4 += 1)
-                #pragma ivdep
-#pragma vector always
-        for( c8 = max(16 * c0 - 16 * c1 + c3, 16 * c4); c8 <= min(min(N - 1, 16 * c0 - 16 * c1 + c3 + 15), 16 * c4 + 15); c8 += 1)
-          table[c8-c3][c8] = INT_MAX;
-    }
-    for( c3 = max(4, N); c3 <= min(15, 2 * N - 2); c3 += 1)
-      for( c6 = max(2, -N + c3 + 1); c6 <= c3 / 2; c6 += 1)
-        for( c10 = c3 - 2 * c6 + 1; c10 < c3 - c6; c10 += 1)
-          table[(c3-c6)-c6][(c3-c6)] = MIN(table[(c3-c6)-c6][(c3-c6)], table[(c3-c6)-c6][c10] + table[c10][(c3-c6)] + cost((c3-c6)-c6,(c3-c6),c10));
-    for( c3 = max(max(16 * c0 + 16 * c1, 16 * c0 - 16 * c1 + 4), 16 * c1 + 16); c3 <= min(min(2 * N - 16 * c0 + 16 * c1 - 2, N + 16 * c1 + 14), 16 * c0 + 16 * c1 + 45); c3 += 1)
-      for( c4 = max(c0 - c1, -2 * c1 + (c3 + 3) / 16 - 2); c4 <= min(min((N - 2) / 16, -c1 + (c3 - 1) / 16), -c1 + (16 * c0 + 16 * c1 + c3 + 13) / 32); c4 += 1)
-        for( c6 = max(max(max(max(2, 16 * c1), -N + c3 + 1), -8 * c0 + 8 * c1 + c3 / 2 - 7), -8 * c4 + (c3 + 1) / 2 - 7); c6 <= min(min(16 * c1 + 15, c3 - 16 * c4 - 1), -8 * c0 + 8 * c1 + c3 / 2); c6 += 1)
-          for( c10 = max(16 * c4, c3 - 2 * c6 + 1); c10 <= min(16 * c4 + 15, c3 - c6 - 1); c10 += 1)
-            table[(c3-c6)-c6][(c3-c6)] = MIN(table[(c3-c6)-c6][(c3-c6)], table[(c3-c6)-c6][c10] + table[c10][(c3-c6)] + cost((c3-c6)-c6,(c3-c6),c10));
-  }
-}
-
+    
+    
+    
+    
+    
+    
 
 } // if
 
