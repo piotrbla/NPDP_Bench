@@ -1,1 +1,12 @@
-
+for (gap = 0; gap < N; gap++){
+   for (j = gap; j < N; j++){    // i = j - gap
+      if (gap < 2)  // polygon vi...vj has fewer than 3 vertices,
+         table[j-gap][j] = 0;
+      else{
+         table[j-gap][j] = INT_MAX;
+         for (k = j-gap+1; k < j; k++){
+            table[j-gap][j]  = MIN(table[j-gap][j], table[j-gap][k] + table[k][j] + cost(j-gap,j,k));
+            }  
+      }  
+   }  
+}
