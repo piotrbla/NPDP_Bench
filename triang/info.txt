@@ -10,3 +10,49 @@ for (gap = 0; gap < N; gap++){
       }  
    }  
 }
+
+for (gap = 0; gap < N; gap++){
+   for (j = gap; j < N; j++){    // i = j - gap
+      if (gap < 2)  // polygon vi...vj has fewer than 3 vertices,
+         table[j-gap][j] = 0;
+      else
+         table[j-gap][j] = INT_MAX;
+   }
+}
+R+
+for( c1 = 2; c1 < N; c1 += 1)
+  #pragma omp parallel for
+  for( c3 = 0; c3 <= (N - c1 - 1) / 16; c3 += 1)
+    for( c5 = 0; c5 <= (c1 - 2) / 16; c5 += 1)
+      for( c9 = c1 + 16 * c3; c9 <= min(N - 1, c1 + 16 * c3 + 15); c9 += 1)
+        for( c11 = -c1 + 16 * c5 + c9 + 1; c11 <= min(c9 - 1, -c1 + 16 * c5 + c9 + 16); c11 += 1)
+          table[c9-c1][c9] = MIN(table[c9-c1][c9], table[c9-c1][c11] + table[c11][c9] + cost(c9-c1,c9,c11));
+
+TS
+for( c0 = 0; c0 <= floord(N - 1, 16); c0 += 1)
+  #pragma omp parallel for
+  for( c1 = max(0, c0 - (N + 13) / 16 + 1); c1 <= c0; c1 += 1)
+    for( c3 = max(16 * c0 + 16 * c1, 16 * c0 - 16 * c1 + 4); c3 <= min(min(2 * N - 16 * c0 + 16 * c1 - 2, N + 16 * c1 + 14), 16 * c0 + 16 * c1 + 45); c3 += 1)
+      for( c4 = max(c0 - c1, -2 * c1 + (c3 + 3) / 16 - 2); c4 <= min(min((N - 2) / 16, -c1 + (c3 - 1) / 16), -c1 + (16 * c0 + 16 * c1 + c3 + 13) / 32); c4 += 1)
+        for( c6 = max(max(max(max(2, 16 * c1), -N + c3 + 1), -8 * c0 + 8 * c1 + c3 / 2 - 7), -8 * c4 + (c3 + 1) / 2 - 7); c6 <= min(min(16 * c1 + 15, c3 - 16 * c4 - 1), -8 * c0 + 8 * c1 + c3 / 2); c6 += 1)
+          for( c10 = max(16 * c4, c3 - 2 * c6 + 1); c10 <= min(16 * c4 + 15, c3 - c6 - 1); c10 += 1)
+            table[(c3-c6)-c6][(c3-c6)] = MIN(table[(c3-c6)-c6][(c3-c6)], table[(c3-c6)-c6][c10] + table[c10][(c3-c6)] + cost((c3-c6)-c6,(c3-c6),c10));
+
+PLT
+if (N >= 3) {
+  for (t1=0;t1<=floord(N-1,8);t1++) {
+    lbp=ceild(t1,2);
+    ubp=min(floord(N-1,16),t1);
+#pragma omp parallel for private(lbv,ubv,t3,t4,t5)
+    for (t2=lbp;t2<=ubp;t2++) {
+      for (t3=max(2,16*t1-16*t2);t3<=min(N-1,16*t1-16*t2+15);t3++) {
+        for (t4=max(16*t2,t3);t4<=min(N-1,16*t2+15);t4++) {
+          for (t5=-t3+t4+1;t5<=t4-1;t5++) {
+            table[t4-t3][t4] = MIN(table[t4-t3][t4], table[t4-t3][t5] + table[t5][t4] + cost(t4-t3,t4,t5));;
+          }
+        }
+      }
+    }
+  }
+}
+
