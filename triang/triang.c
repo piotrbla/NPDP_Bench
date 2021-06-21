@@ -173,7 +173,7 @@ if (N >= 1) {
   }
 
 for( c1 = 4; c1 < 2 * N - 1; c1 += 1)
-  #pragma omp parallel for schedule(dynamic, 1)
+  #pragma omp parallel for schedule(dynamic, 1) private(c3,c5,c9,c11) shared(c1)
   for( c3 = -((c1 - 1) % 2) + 1; c3 <= min(c1 - 4, (2 * N - c1 - 2) / 31); c3 += 2)
     for( c5 = 0; c5 <= (c1 - c3 - 4) / 32; c5 += 1)
       for( c9 = (c1 + 31 * c3) / 2; c9 <= min(N - 1, ((c1 + 31 * c3) / 2) + 15); c9 += 1)
