@@ -1,5 +1,9 @@
 
 // See the Cormen book for details of the following algorithm
+
+// Accelerating Minimum Cost Polygon Triangulation Code with the TRACO Compiler, Palkowski Bielecki FedCsis 2018
+// https://annals-csis.org/Volume_17/drp/pdf/8.pdf
+
 #include<stdio.h>
 #include<limits.h>
 #include <math.h>
@@ -172,6 +176,7 @@ if (N >= 1) {
     }
   }
 
+   // 1 x 32 x 16
 for( c1 = 4; c1 < 2 * N - 1; c1 += 1)
   #pragma omp parallel for schedule(dynamic, 1) private(c3,c5,c9,c11) shared(c1)
   for( c3 = -((c1 - 1) % 2) + 1; c3 <= min(c1 - 4, (2 * N - c1 - 2) / 31); c3 += 2)
@@ -222,9 +227,9 @@ if (N >= 1) {
     }
   }
     
-    
+// 16x16x16    
 for( c0 = 0; c0 <= floord(N - 1, 16); c0 += 1)
-  #pragma omp parallel for
+  #pragma omp parallel for schedule(dynamic, 1) private(c1,c3,c4,c6,c10) shared(c0)
   for( c1 = max(0, c0 - (N + 13) / 16 + 1); c1 <= c0; c1 += 1)
     for( c3 = max(16 * c0 + 16 * c1, 16 * c0 - 16 * c1 + 4); c3 <= min(min(2 * N - 16 * c0 + 16 * c1 - 2, N + 16 * c1 + 14), 16 * c0 + 16 * c1 + 45); c3 += 1)
       for( c4 = max(c0 - c1, -2 * c1 + (c3 + 3) / 16 - 2); c4 <= min(min((N - 2) / 16, -c1 + (c3 - 1) / 16), -c1 + (16 * c0 + 16 * c1 + c3 + 13) / 32); c4 += 1)
