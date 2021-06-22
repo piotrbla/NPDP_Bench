@@ -5,7 +5,7 @@ int c0,c1,c2,c3,c5,c6,c7,c9,c11,c10,c4,c12;
 
 if(1==1)
 for( c0 = 0; c0 <= floord(N - 2, 8); c0 += 1)
-  #pragma omp parallel for schedule(dynamic, 1)
+  #pragma omp parallel for schedule(dynamic, 1) shared(c0) private(c1,c3,c4,c6,c10)
   for( c1 = (c0 + 1) / 2; c1 <= min(c0, (N - 1) / 16); c1 += 1)
     for( c3 = 16 * c0 - 16 * c1 + 1; c3 <= min(min(N - 1, 16 * c1 + 15), 16 * c0 - 16 * c1 + 16); c3 += 1) {
       for( c4 = 0; c4 <= c0 - c1; c4 += 1)

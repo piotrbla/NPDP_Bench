@@ -4,7 +4,7 @@ void tilecorr()
 int c0,c1,c2,c3,c5,c6,c7,c9,c11,c10,c4,c12;
 
 for( c1 = 1; c1 < N + floord(N - 2, 128); c1 += 1)
-  #pragma omp parallel for 
+  #pragma omp parallel for schedule(dynamic, 1) shared(c1) private(c3,c4,c9,c10,c11,c5)
   for( c3 = max(0, -N + c1 + 1); c3 <= (c1 - 1) / 129; c3 += 1)
     for( c4 = 0; c4 <= 1; c4 += 1) {
       if (c4 == 1) {
