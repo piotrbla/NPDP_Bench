@@ -178,18 +178,14 @@ int main(int argc, char *argv[]){
 
     if(kind == 4)
     {
-        for( c1 = 1; c1 < n + floord(n - 2, 128) - 1; c1 += 1)
-            #pragma omp parallel for shared(c1) private(c3,c5,c9)
-            for( c3 = max(0, -n + c1 + 2); c3 <= c1 / 129; c3 += 1){
-                int lb1 = n - c1 + 129 * c3; 
-                int id1 = n-c1+c3-1;      
-                for( c5 = 0; c5 <= min(8 * c3 + 7, (c1 - c3 - 1) / 16); c5 += 1){
-                int lb2 = n - c1 + c3 + 16 * c5;
-                for( c9 = max(lb1, lb2 + 1); c9 <= min(n, lb1 + 127); c9 += 1)
-                    for( c11 = lb2; c11 <= min(lb2 + 15, c9 - 1); c11 += 1)
-                    c[(id1)][c9] = MIN(c[(id1)][c9], w[(id1)][c9]+c[(id1)][c11]+c[c11][c9]);
-                }
-            }
+for( c0 = 0; c0 <= floord(n - 2, 8); c0 += 1)
+  #pragma omp parallel for shared(c0) private(c1,c3,c4,c6,c10) schedule(dynamic, 1)
+  for( c1 = (c0 + 1) / 2; c1 <= min(c0, (n - 2) / 16); c1 += 1)
+    for( c3 = max(2, 16 * c0 - 16 * c1 + 1); c3 <= min(n - 1, 16 * c0 - 16 * c1 + 16); c3 += 1)
+      for( c4 = max(0, -c1 + (n + 1) / 16 - 1); c4 <= min((n - 1) / 16, -c1 + (n + c3 - 2) / 16); c4 += 1)
+        for( c6 = max(max(-n + 16 * c1 + 1, -n + c3), -16 * c4 - 14); c6 <= min(min(-1, -n + 16 * c1 + 16), c3 - 16 * c4 - 1); c6 += 1)
+          for( c10 = max(16 * c4, -c6 + 1); c10 <= min(16 * c4 + 15, c3 - c6 - 1); c10 += 1)
+            c[(-c6)][(c3-c6)] = MIN(c[(-c6)][(c3-c6)], w[(-c6)][(c3-c6)]+c[(-c6)][c10]+c[c10][(c3-c6)]);
     }
 
     double stop = omp_get_wtime();
