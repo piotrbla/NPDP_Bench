@@ -24,7 +24,7 @@ int DIM;
 char * RNA;  //only ACGU
 
 
-#include "../mem.h"
+#include "mem.h"
 
 int paired(int i, int j) {
    char nt1 = RNA[i];
