@@ -30,7 +30,7 @@ return S;
 }
 
 
-void rand_seq(unsigned char*a, int N){
+void rand_seq(char*a, int N){
   int i, tmp;
   srand(time(NULL));
   for(i=0; i<N; i++)
