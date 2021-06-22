@@ -52,6 +52,7 @@ int s(unsigned char x, unsigned char z){
 #include "sw3d_traco16.h"
 #include "sw3d_traco128.h"
 #include "sw3d_tstile.h"
+#include "sw3d_pluto.h"
 
 
 
@@ -126,6 +127,11 @@ int main(int argc, char *argv[]){
 
     if(kind == 1)
         sw_seq();
+
+    if(kind == 2){
+        sw3d_pluto();
+    }
+
 
     if(kind == 3){
         sw_traco3d();

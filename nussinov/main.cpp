@@ -1,3 +1,5 @@
+//nussinov
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <omp.h>
@@ -34,7 +36,7 @@ int main(int argc, char *argv[]){
 
     method = "oryg";
 
-    if(argc != 3)
+    if(argc < 4 )
     {
         printf("./nuss [method: oryg,tstile,tilecorr,pluto] [number of threads] [N] \n");
         return -1;

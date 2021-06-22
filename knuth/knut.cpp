@@ -147,7 +147,7 @@ int main(int argc, char *argv[]){
 
 {
   for( c1 = 0; c1 < n + floord(-3 * n - 3, 8); c1 += 1)
-    #pragma omp parallel for
+    #pragma omp parallel for shared(c1) private(c3,c5,c9,c11) schedule(dynamic, 1)
     for( c3 = max(0, c1 - (n + 6) / 8 + 1); c3 <= min(n / 2 - 1, c1 - (c1 + 6) / 5 + 1); c3 += 1)
       for( c5 = 0; c5 <= c3 / 128; c5 += 1)
         for( c7 = max(max(-n + 2 * c3 + 1, -n + 8 * c1 - 8 * c3 + 1), -n + c3 + 128 * c5 + 2); c7 <= min(-1, -n + 8 * c1 - 8 * c3 + 8); c7 += 1) {
