@@ -100,7 +100,7 @@ int main(int argc, char *argv[]){
         }
        #pragma endscop
     }
-    if(kind==3) // pluto
+    if(kind==2) // pluto
     {
         /* Start of CLooG code */
 /* Start of CLooG code */
@@ -125,15 +125,30 @@ if ((N >= 3) && (N >= l+1)) {
 
         /* End of CLooG code */
     }
-    if(kind==2) // traco
+    if(kind==3) // traco
     {
-
+for( c1 = max(0, floord(l - 2, 16)); c1 <= floord(N - 3, 16); c1 += 1)
+  #pragma omp parallel for shared(c1) private(c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12) schedule(dynamic, 1)
+  for( c3 = max(0, floord(l - 2, 16)); c3 <= c1; c3 += 1)
+    for( c5 = 0; c5 <= min(c3 + floord(-l + 1, 16) + 1, floord(-l + N - 1, 16)); c5 += 1)
+      for( c7 = max(-N + 16 * c1 + 2, l - N + 16 * c5); c7 <= min(-1, -N + 16 * c1 + 17); c7 += 1) {
+        for( c9 = max(l + 16 * c5 - c7, 16 * c3 - c7 + 2); c9 <= min(min(N, l + 16 * c5 - c7 + 16), 16 * c3 - c7 + 17); c9 += 1) {
+          if (c7 + c9 >= 16 * c3 + 3 && c7 + c9 >= l + 16 * c5 + 1)
+            for( c11 = -c7; c11 < 16 * c5 - c7; c11 += 1)
+              c[(-c7)][c9] += c[(-c7)][c9-1] + paired(c11,c9) - c[(-c7)][c11-1] + c[c11+1][c9-1] - 0;
+          for( c11 = 16 * c5 - c7; c11 <= min(16 * c5 - c7 + 15, -l + c9); c11 += 1)
+            c[(-c7)][c9] += c[(-c7)][c9-1] + paired(c11,c9) - c[(-c7)][c11-1] + c[c11+1][c9-1] - 0;
+        }
+        if (16 * c3 >= l + 16 * c5 + 15)
+          for( c11 = 16 * c5 - c7; c11 <= 16 * c5 - c7 + 15; c11 += 1)
+            c[(-c7)][(16*c3-c7+2)] += c[(-c7)][(16*c3-c7+2)-1] + paired(c11,(16*c3-c7+2)) - c[(-c7)][c11-1] + c[c11+1][(16*c3-c7+2)-1] - 0;
+      }
     }
 
     if(kind==4) // traco
     {
     for( c0 = max(0, l + floord(l - 2, 16) - 2); c0 < N + floord(N - 3, 16) - 2; c0 += 1)
-  #pragma omp parallel for
+  #pragma omp parallel for shared(c0) private(c1, c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12) schedule(dynamic, 1)
   for( c1 = c0 - (c0 + 17) / 17 + 1; c1 <= min(min(N - 3, c0), c0 + (-l + 1)/16 + 1); c1 += 1)
     for( c3 = max(l, 16 * c0 - 16 * c1 + 2); c3 <= min(c1 + 2, 16 * c0 - 16 * c1 + 17); c3 += 1)
       for( c4 = (N - c1 - 2) / 16; c4 <= (-l + N - c1 + c3 - 2) / 16; c4 += 1)
