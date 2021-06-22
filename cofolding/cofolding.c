@@ -14,7 +14,7 @@
 
 int ** c;
 
-
+int zz = 2;
 
 int ** F;  //only ACGU
 
