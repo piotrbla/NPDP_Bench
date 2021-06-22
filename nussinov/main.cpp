@@ -47,6 +47,7 @@ int main(int argc, char *argv[]){
     omp_set_num_threads(num_proc);  // else default max number
     
     S = mem();
+    RNA = new char[N+5];
 
     printf("\nmethod %s\n", method);
     printf("N %i\n", N);
