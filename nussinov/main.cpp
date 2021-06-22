@@ -34,31 +34,19 @@ int main(int argc, char *argv[]){
 
     method = "oryg";
 
-    if(argc > 1)
-        filename = argv[1];
-    else{
-        printf("./nuss filename [method: oryg,tstile,tilecorr] [number of threads] \n");
+    if(argc != 3)
+    {
+        printf("./nuss [method: oryg,tstile,tilecorr,pluto] [number of threads] [N] \n");
         return -1;
-        }
+     }
+    
+    method = argv[1];
+    num_proc = atoi(argv[2]);
+    N = atoi(argv[3]);
 
-    if(argc > 2)
-        method = argv[2];
-
-
-    if(argc > 3)
-        num_proc = atoi(argv[3]);
-
-    if(num_proc > 0)
-       omp_set_num_threads(num_proc);  // else default max number
-
-
-    readRNA(filename);
-    N = 10000;
+    omp_set_num_threads(num_proc);  // else default max number
+    
     S = mem();
-
-    if(argc > 4)
-        N = atoi(argv[4]);
-
 
     printf("\nmethod %s\n", method);
     printf("N %i\n", N);
@@ -89,12 +77,12 @@ int main(int argc, char *argv[]){
     printf("Time: %.2f\n", stop - start);
 
    // printf("Traceback:\n");
-     char *wout = new char[256];
-     strcpy(wout, filename);
+   //  char *wout = new char[256];
+  //   strcpy(wout, filename);
 
-     FILE *plik = fopen(strcat(wout, ".traceback.txt") ,"w");
-     traceback(0, N-1, plik);
-     fclose(plik);
+   //  FILE *plik = fopen(strcat(wout, ".traceback.txt") ,"w");
+   //  traceback(0, N-1, plik);
+   //  fclose(plik);
 
     return 0;
 }
