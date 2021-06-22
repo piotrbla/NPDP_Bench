@@ -178,7 +178,14 @@ int main(int argc, char *argv[]){
 
     if(kind == 4)
     {
-
+for( c0 = 0; c0 <= floord(n - 2, 8); c0 += 1)
+  #pragma omp parallel for shared(c0) private(c1,c3,c4,c6,c10) schedule(dynamic, 1)
+  for( c1 = (c0 + 1) / 2; c1 <= min(c0, (n - 2) / 16); c1 += 1)
+    for( c3 = max(2, 16 * c0 - 16 * c1 + 1); c3 <= min(n - 1, 16 * c0 - 16 * c1 + 16); c3 += 1)
+      for( c4 = max(0, -c1 + (n + 1) / 16 - 1); c4 <= min((n - 1) / 16, -c1 + (n + c3 - 2) / 16); c4 += 1)
+        for( c6 = max(max(-n + 16 * c1 + 1, -n + c3), -16 * c4 - 14); c6 <= min(min(-1, -n + 16 * c1 + 16), c3 - 16 * c4 - 1); c6 += 1)
+          for( c10 = max(16 * c4, -c6 + 1); c10 <= min(16 * c4 + 15, c3 - c6 - 1); c10 += 1)
+            c[(-c6)][(c3-c6)] = MIN(c[(-c6)][(c3-c6)], w[(-c6)][(c3-c6)]+c[(-c6)][c10]+c[c10][(c3-c6)]);
     }
 
     double stop = omp_get_wtime();
