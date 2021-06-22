@@ -149,7 +149,7 @@ for( c1 = max(0, floord(l - 2, 16)); c1 <= floord(N - 3, 16); c1 += 1)
     {
        for( c0 = max(0, floord(l - 2, 8) - 1); c0 <= floord(N - 3, 8); c0 += 1)
   #pragma omp parallel for  shared(c0) private(c1, c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12) schedule(dynamic, 1)
-  for( c1 = (c0 + 1) / 2; c1 <= min(min(c0, c0 + floord(-l + 1, 16) + 1), (N - 3) / 16); c1 += 1)
+  for( c1 = (c0 + 1) / 2; c1 <= min(min(c0, c0 + (-l + 1/16) + 1), (N - 3) / 16); c1 += 1)
     for( c3 = max(l, 16 * c0 - 16 * c1 + 2); c3 <= min(N - 1, 16 * c0 - 16 * c1 + 17); c3 += 1)
       for( c4 = max(0, -c1 + (N - 1) / 16 - 1); c4 <= min((-l + N) / 16, -c1 + (-l + N + c3 - 2) / 16); c4 += 1)
         for( c6 = max(max(-N + 16 * c1 + 2, -N + c3), -16 * c4 - 15); c6 <= min(min(-1, -N + 16 * c1 + 17), -l + c3 - 16 * c4); c6 += 1)
