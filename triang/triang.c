@@ -196,6 +196,11 @@ if(kind==tstile)
     int c0,c1,c3,c4,c5,c6,c8,c9,c10, c11;
 
 
+  int t1, t2, t3, t4, t5,t6;
+ int lb, ub, lbp, ubp, lb2, ub2;
+ register int lbv, ubv;
+
+
 printf("tstile\n");
 
 if (N >= 1) {
