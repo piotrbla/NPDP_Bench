@@ -158,7 +158,7 @@ int c1,c3,c5,c9,c7,c11;
 
 
 for( c1 = 0; c1 < n - 2; c1 += 1)
-  #pragma omp parallel for shared(c1)
+  #pragma omp parallel for shared(c1) private(c3,c5,c9,c11)
   for( c3 = 0; c3 <= (n - c1 - 3) / 128; c3 += 1)
     for( c5 = 0; c5 <= c1 / 16; c5 += 1)
       for( c9 = 128 * c3 + 1; c9 <= min(n - c1 - 2, 128 * c3 + 128); c9 += 1)
@@ -218,7 +218,7 @@ if(kind == tstile){
   }
 
 for( c0 = 0; c0 <= floord(n - 3, 16); c0 += 1)
-  #pragma omp parallel for
+  #pragma omp parallel for private(c3,c1,c4,c10,c6) shared(c0)
   for( c1 = 0; c1 <= c0; c1 += 1)
     for( c3 = 16 * c0 + 16 * c1 + 5; c3 <= min(min(2 * n - 16 * c0 + 16 * c1 - 1, n + 16 * c1 + 17), 16 * c0 + 16 * c1 + 50); c3 += 1)
       for( c4 = max(c0 - c1, -2 * c1 + (c3 - 2) / 16 - 2); c4 <= min((n - 2) / 16, -c1 + (16 * c0 + 16 * c1 + c3 + 12) / 32); c4 += 1)
