@@ -52,8 +52,7 @@ int main(int argc, char *argv[]){
     int lb, ub, lbp, ubp, lb2, ub2;
     register int lbv, ubv;
 
-    RNA =  (char*) malloc(DIM * sizeof(char*));  //read from FASTA file
-    rand_seq(RNA, N);
+
 
 
     srand(time(NULL));
@@ -82,6 +81,10 @@ int main(int argc, char *argv[]){
 
     F =  mem();
     c = mem();
+   
+   
+    RNA =  (char*) malloc(DIM * sizeof(char*));  //read from FASTA file
+    rand_seq(RNA, N);
 
 
 
