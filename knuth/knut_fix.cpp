@@ -1,3 +1,5 @@
+// set check to 0 to measure time, set to 1 to check validity
+
 #include <stdlib.h>
 #include <limits.h>
 #include <omp.h>
