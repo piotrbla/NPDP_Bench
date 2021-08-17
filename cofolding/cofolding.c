@@ -1,24 +1,3 @@
-
-Otwarto wątek. Jedna nieprzeczytana wiadomość.
-
-Przejdź do treści
-Korzystanie z usługi Gmail z czytnikami ekranu
-Meet
-Nowe spotkanie
-Dołącz do spotkania
-Hangouty
-
-1 z 8 750
-cofold
-Odebrane
-
-Marek Pałkowski <marekp1980@gmail.com>
-Załączniki
-19:15 (0 minut temu)
-do mnie
-
-
-Obszar załączników
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
@@ -230,5 +209,4 @@ for( c1 = max(0, floord(l - 2, 8) - 1); c1 <= floord(N - 3, 8); c1 += 1)
     return 0;
 
 }
-cofolding.c
-Wyświetlanie cofolding.c.
+
