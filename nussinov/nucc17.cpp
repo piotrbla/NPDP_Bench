@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <iostream>
 #include <execution>
+#include <chrono>
 
 #define N 500
 
@@ -50,6 +51,7 @@ int main()
     S = mem();
     RNA = new char[N + 5];
 
+    auto start = std::chrono::steady_clock::now();
     for (c0 = 0; c0 <= floord(N - 2, 8); c0 += 1) {
         for (c1 = (c0 + 1) / 2; c1 <= min(c0, (N - 1) / 16); c1 += 1) {
             nums.push_back(c1);
@@ -75,5 +77,11 @@ int main()
 
     }
 
+    auto end = std::chrono::steady_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end - start;
+    std::cout << "elapsed time: " << elapsed_seconds.count() << "s\n";
+
 
 }
+
+
