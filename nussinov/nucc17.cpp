@@ -3,6 +3,7 @@
 #include <iostream>
 #include <execution>
 #include <chrono>
+#include <cmath>
 
 #define N 500
 
@@ -55,6 +56,7 @@ int main()
     for (c0 = 0; c0 <= floord(N - 2, 8); c0 += 1) {
         for (c1 = (c0 + 1) / 2; c1 <= min(c0, (N - 1) / 16); c1 += 1) {
             nums.push_back(c1);
+        }
 
             std::for_each(std::execution::par_unseq, nums.cbegin(), nums.cend(), [&](const int& c1) {
 
@@ -73,7 +75,7 @@ int main()
                 }
 
                 });
-        }
+        nums.clear();
 
     }
 
