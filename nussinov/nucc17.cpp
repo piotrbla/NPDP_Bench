@@ -116,7 +116,7 @@ if(method==1)
 
 if(method==2)
 for (c0 = 0; c0 <= floord(N - 2, 8); c0 += 1) {
-tbb::parallel_for(tbb::blocked_range<int>((c0 + 1) / 2, min(c0, (N - 1) / 16)),
+tbb::parallel_for(tbb::blocked_range<int>((c0 + 1) / 2, min(c0, (N - 1) / 16)+1),
         [&](tbb::blocked_range<int> r)
 {
                   int c3, c6, c10, c4;
