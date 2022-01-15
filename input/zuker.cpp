@@ -25,11 +25,29 @@ int **WZ;
 
 int N = 100, DIM = 102;
 
-#include "zuker_oryg.h"
-#include "zuker_pluto.h"
-#include "zuker_traco.h"
-#include "zuker_traco3.h"
-#include "mem.h"
+void zuker_seq()
+{
+int i,j,k,m;
+
+#pragma scop
+for (i = N-1; i >= 0; i--){
+ for (j = i+1; j < N; j++) {
+   for (k = i+1; k < j; k++){
+   for(m=k+1; m <j; m++){
+    if(k-i + j - m > 2 && k-i + j - m < 30)
+       V[i][j] = MIN(V[k][m] + EFL[i][j], V[i][j]);
+   }
+   W[i][j] += MIN ( MIN(W[i][k], W[k+1][j]), W[i][j]);
+   if(k < j-1)
+     V[i][j] = MIN(W[i+1][k] + W[k+1][j-1], V[i][j]);
+  }
+ V[i][j] = MIN( MIN (V[i+1][j-1], EHF[i][j]), V[i][j]);
+ W[i][j] = MIN( MIN ( MIN ( W[i+1][j], W[i][j-1]), V[i][j]), W[i][j]);
+ }
+}
+#pragma endscop
+
+}
 
 
 
@@ -75,51 +93,10 @@ int main(int argc, char *argv[]){
 
     double start = omp_get_wtime();
 
-    if(kind == 4){
-        printf("traco\n");
-        zuker_traco3();
-    }
-
-
-    if(kind == 3){
-        printf("traco tilecorr\n");
-        zuker_traco();
-    }
-
-    if(kind == 2)
-   {
-      printf("pluto\n");
-      zuker_pluto();
-   }
-
-    if(kind == 1 || CHECK_VALID)
-    {    tmp_V = V;
-        V = V1;
-      tmp_W = W;
-        W = W1;
-
-        zuker_seq();
-        V = tmp_V;
-        W = tmp_W;
-
-    if(CHECK_VALID && kind > 1)
-     for(i=0; i<N; i++)
-      for(j=0; j<N; j++)
-       if((V[i][j] != V1[i][j]) || (W[i][j] != W1[i][j])){
-          printf("error! %i %i\n", V[i][j], V1[i][j] );
-         exit(0);
-      }
-
-    }
-
+    zuker_seq();
 
     double stop = omp_get_wtime();
     printf("%.2f seconds\n",stop - start);
-
-
-
-
-
 
 return 0;
 }
