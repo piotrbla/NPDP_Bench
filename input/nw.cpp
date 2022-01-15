@@ -34,7 +34,29 @@ int s(unsigned char x, unsigned char z){
 
 
 #include "mem.h"
-#include "sw_oryg.h"
+
+void nw_seq()
+{
+int i,j,k;
+
+printf("- oryginal code - \n\n");
+
+#pragma scop
+for (i=1; i <=N; i++)
+    for (j=1; j <=N; j++){
+    // Block S
+        m1[i][j] = INT_MIN;
+        for (k=1; k <=i; k++)
+            m1[i][j] = MAX(m1[i][j] ,F[i-k][j] - W[k]);
+        m2[i][j] = INT_MIN;
+        for (k=1; k <=j; k++)
+            m2[i][j] = MAX(m2[i][j] ,F[i][j-k] - W[k]);
+        F[i][j] = MAX(0, MAX( F[i-1][j-1] + s(a[i], b[i]), MAX(m1[i][j], m2[i][j])));
+    }
+#pragma endscop
+
+
+}
 
 
 int main(int argc, char *argv[]){
@@ -90,23 +112,7 @@ int main(int argc, char *argv[]){
     omp_set_num_threads(num_proc);
 
     double start = omp_get_wtime();
-
-    
-    if(kind == 1 || CHECK_VALID)
-    {    tmp_F = F;
-        F = F1;
-        sw_seq();
-        F = tmp_F;
-
-    if(CHECK_VALID)
-     for(i=0; i<N; i++)
-      for(j=0; j<N; j++)
-       if(F[i][j] != F1[i][j]){
-          printf("error!\n");
-          exit(0);
-      }
-
-    }
+    nw_seq();
     double stop = omp_get_wtime();
     printf("%.4f\n",stop - start);
 
