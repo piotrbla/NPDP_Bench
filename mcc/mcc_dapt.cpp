@@ -189,20 +189,9 @@ int main(int argc, char *argv[]){
 
     if(kind==5) // dapt
     {
-if (l >= 0 && l <= 5) {
-  if (l + 1 >= N) {
-    for (int w0 = floord(-N + 2, 16); w0 <= 0; w0 += 1) {
-      for (int t0 = 0; t0 <= min(8 * w0 + (N + 14) / 2, floord(N + 1, 2) - 1); t0 += 1) {
-        for (int i0 = max(max(-N + 2, 16 * w0), -N + 2 * t0 + 1); i0 <= min(0, 16 * w0 + 15); i0 += 1) {
-          for (int i1 = max(2 * t0 - i0, -i0 + 1); i1 <= min(N - 1, 2 * t0 - i0 + 1); i1 += 1) {
-            Q[-i0][i1] = Q[-i0][i1 - 1];
-          }
-        }
-      }
-    }
-  } else {
+if (l >= 0 && l <= 5 && N > 5) {
     for (int w0 = -1; w0 <= (N - 1) / 16; w0 += 1) {
-      #pragma omp parallel for
+      #pragma omp parallel for shared(w0)
       for (int h0 = max(w0 - (N + 15) / 16 + 1, -((N + 13) / 16)); h0 <= min(0, w0); h0 += 1) {
         for (int t0 = max(0, 8 * w0); t0 <= min(min(min(8 * w0 + 15, 8 * w0 - 8 * h0 + 7), 8 * h0 + N / 2 + 7), (N + 1) / 2 - 1); t0 += 1) {
           for (int i0 = max(max(max(max(-N + 2, -16 * w0 + 16 * h0 - 14), 16 * h0), -16 * w0 + 16 * h0 + 2 * t0 - 15), -N + 2 * t0 + 1); i0 <= min(min(0, 16 * h0 + 15), -16 * w0 + 16 * h0 + 2 * t0 + 1); i0 += 1) {
