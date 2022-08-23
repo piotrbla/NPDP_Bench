@@ -1,0 +1,24 @@
+
+//dapt code:
+
+gap = 0;
+for (int i1 = 0; i1 < N; i1 += 1) {
+  {
+    j = (i1);
+    for (int i3 = i1; i3 < N; i3 += 1) {
+      if (i1 >= 2) {
+        table[-i1 + i3][i3] = 2147483647;
+        k = (-i1 + i3 + 1);
+      }
+      for (int i7 = -i1 + i3 + 1; i7 < i3; i7 += 1) {
+        table[-i1 + i3][i3] = ((table[-i1 + i3][i3] < ((table[-i1 + i3][i7] + table[i7][i3]) + cost((-i1 + i3), (i3), (i7)))) ? table[-i1 + i3][i3] : ((table[-i1 + i3][i7] + table[i7][i3]) + cost((-i1 + i3), (i3), (i7))));
+        k = (i7 + 1);
+      }
+      if (i1 <= 1) {
+        table[-i1 + i3][i3] = 0.0;
+      }
+      j = (i3 + 1);
+    }
+  }
+  gap = (i1 + 1);
+}
