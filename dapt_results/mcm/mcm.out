@@ -1,0 +1,29 @@
+
+//dapt code:
+#define min(x,y)    ((x) < (y) ? (x) : (y))
+#define max(x,y)    ((x) > (y) ? (x) : (y))
+#define floord(n,d) (((n)<0) ? -((-(n)+(d)-1)/(d)) : (n)/(d))
+
+for (int w0 = -((len + 17) / 32) - 1; w0 <= floord(5 * len - 5, 48); w0 += 1) {
+  #pragma omp parallel for
+  for (int h0 = max(max(0, w0 - (len + 23) / 24 + 1), floord(3 * w0 + 3, 7)); h0 <= min(floord(len - 1, 16), (3 * len + 96 * w0 + 154) / 208); h0 += 1) {
+    for (int h1 = max(w0 - h0, h0 - (h0 + 2) / 3); h1 <= min(min(min(w0 - h0 + (len + 28) / 32, h0 + h0 / 3 + 1), w0 - 2 * h0 + (len + 16 * h0 + 30) / 32), w0 - h0 + (len - 24 * w0 + 24 * h0 + 30) / 56); h1 += 1) {
+      for (int i0 = max(max(2, 16 * h0), 12 * h1 + 1); i0 <= min(min(min(len - 1, 16 * h0 + 15), 24 * h1 + 23), len + 32 * w0 - 32 * h0 - 32 * h1 + 30); i0 += 1) {
+        for (int i1 = max(24 * h1, i0); i1 <= min(min(min(len - 1, 24 * h1 + 23), len + 32 * w0 - 32 * h0 - 32 * h1 + 30), 2 * i0 - 2); i1 += 1) {
+          for (int i2 = max(0, -32 * w0 + 32 * h0 + 32 * h1 - 31); i2 <= min(-32 * w0 + 32 * h0 + 32 * h1, len - i1 - 1); i2 += 1) {
+            {
+              if (2 * i0 >= i1 + 3) {
+                if (((dp[i2][-i0 + i1 + i2 + 1] + dp[-i0 + i1 + i2 + 1][i1 + i2]) + ((arr[i2] * arr[i1 + i2]) * arr[-i0 + i1 + i2 + 1])) < dp[i2][i1 + i2]) {
+                  dp[i2][i1 + i2] = ((dp[i2][-i0 + i1 + i2 + 1] + dp[-i0 + i1 + i2 + 1][i1 + i2]) + ((arr[i2] * arr[i1 + i2]) * arr[-i0 + i1 + i2 + 1]));
+                }
+              }
+              if (((dp[i2][i0 + i2 - 1] + dp[i0 + i2 - 1][i1 + i2]) + ((arr[i2] * arr[i1 + i2]) * arr[i0 + i2 - 1])) < dp[i2][i1 + i2]) {
+                dp[i2][i1 + i2] = ((dp[i2][i0 + i2 - 1] + dp[i0 + i2 - 1][i1 + i2]) + ((arr[i2] * arr[i1 + i2]) * arr[i0 + i2 - 1]));
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
