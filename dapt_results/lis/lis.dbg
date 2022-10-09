@@ -1,0 +1,257 @@
+
+#######################################################################
+
+#oryginal loop:
+
+#schedule:
+{ domain: "[n] -> { S_2[c0, c1] : c0 >= 0 and c0 < c1 < n }", child: { schedule: "[n] -> L_0[{ S_2[c0, c1] -> [(c0)] }]", child: { schedule: "[n] -> L_1[{ S_2[c0, c1] -> [(c1)] }]" } } }
+
+#domain:
+[n] -> { S_2[c0, c1] : c0 >= 0 and c0 < c1 < n }
+
+#schedule map:
+[n] -> { S_2[c0, c1] -> [c0, c1] }
+
+#isl schedule:
+{ domain: "[n] -> { S_2[c0, c1] : c0 >= 0 and c0 < c1 < n }", child: { schedule: "[n] -> [{ S_2[c0, c1] -> [(c0)] }, { S_2[c0, c1] -> [(c1)] }]", permutable: 1, coincident: [ 1, 1 ] } }
+
+#isl schedule map:
+[n] -> { S_2[c0, c1] -> [c0, c1] }
+
+#writes:
+[n] -> { S_2[c0, c1] -> lis[c1] : c0 >= 0 and c1 > c0 and 0 <= c1 <= 99 and c1 < n }
+
+#reads:
+[n] -> { S_2[c0, c1] -> lis[c0] : 0 <= c0 <= 99 and c0 < c1 < n; S_2[c0, c1] -> lis[c1] : c0 >= 0 and c0 < c1 <= 99 and c1 < n; S_2[c0, c1] -> a[c0] : c0 >= 0 and c0 < c1 < n; S_2[c0, c1] -> a[c1] : c0 >= 0 and c1 > c0 and 0 <= c1 < n }
+
+#dep_raw:
+[n] -> { S_2[c0, c1] -> S_2[c0', c1' = c1] : c0 >= 0 and c1 <= 99 and c1 < n and c0 < c0' < c1; S_2[c0, c1] -> S_2[c0' = c1, c1'] : c0 >= 0 and c0 < c1 <= 99 and c1 < c1' < n }
+
+#dep_waw:
+[n] -> { S_2[c0, c1] -> S_2[c0', c1' = c1] : c0 >= 0 and c1 <= 99 and c1 < n and c0 < c0' < c1 }
+
+#dep_war:
+[n] -> { S_2[c0, c1] -> S_2[c0', c1' = c1] : c0 >= 0 and c1 <= 99 and c1 < n and c0 < c0' < c1 }
+
+#relations:
+[n] -> { S_2[c0, c1] -> S_2[c0', c1' = c1] : c0 >= 0 and c1 <= 99 and c1 < n and c0 < c0' < c1; S_2[c0, c1] -> S_2[c0' = c1, c1'] : c0 >= 0 and c0 < c1 <= 99 and c1 < c1' < n }
+
+#delta:
+{ [c0, c1] : 0 < c0 <= 99 and c1 >= -98 + c0 and c1 >= 0 }
+
+#######################################################################
+
+#######################################################################
+
+#norm schedule map:
+[n] -> { S_2[c0, c1] -> [c0, c1] }
+
+#######################################################################
+
+#######################################################################
+
+#normalized loop (0):
+
+#mapper:
+[n] -> { S_2[c0, c1] -> S_2[i0 = c0, i1 = c1] }
+
+#domain:
+[n] -> { S_2[i0, i1] : i0 >= 0 and i0 < i1 < n }
+
+#schedule map:
+[n] -> { S_2[i0, i1] -> [i0, i1] }
+
+#writes:
+[n] -> { S_2[i0, i1] -> lis[i1] : i0 >= 0 and i1 > i0 and 0 <= i1 <= 99 and i1 < n }
+
+#reads:
+[n] -> { S_2[i0, i1] -> lis[i0] : 0 <= i0 <= 99 and i0 < i1 < n; S_2[i0, i1] -> lis[i1] : i0 >= 0 and i0 < i1 <= 99 and i1 < n; S_2[i0, i1] -> a[i0] : i0 >= 0 and i0 < i1 < n; S_2[i0, i1] -> a[i1] : i0 >= 0 and i1 > i0 and 0 <= i1 < n }
+
+#dep_raw:
+[n] -> { S_2[i0, i1] -> S_2[i0', i1' = i1] : i0 >= 0 and i1 <= 99 and i1 < n and i0 < i0' < i1; S_2[i0, i1] -> S_2[i0' = i1, i1'] : i0 >= 0 and i0 < i1 <= 99 and i1 < i1' < n }
+
+#dep_waw:
+[n] -> { S_2[i0, i1] -> S_2[i0', i1' = i1] : i0 >= 0 and i1 <= 99 and i1 < n and i0 < i0' < i1 }
+
+#dep_war:
+[n] -> { S_2[i0, i1] -> S_2[i0', i1' = i1] : i0 >= 0 and i1 <= 99 and i1 < n and i0 < i0' < i1 }
+
+#relations:
+[n] -> { S_2[i0, i1] -> S_2[i0', i1' = i1] : i0 >= 0 and i1 <= 99 and i1 < n and i0 < i0' < i1; S_2[i0, i1] -> S_2[i0' = i1, i1'] : i0 >= 0 and i0 < i1 <= 99 and i1 < i1' < n }
+
+#delta:
+{ [i0, i1] : 0 < i0 <= 99 and i1 >= -98 + i0 and i1 >= 0 }
+
+#######################################################################
+
+#######################################################################
+
+#normalized loop (0):
+
+#loop tile start
+
+#dim info analyze start
+
+#dim info analyze stop
+
+#delta analyze start
+
+#distance vector set : { [i0 = 99, i1 = 2] }
+
+#distance vector set : { [i0 = 99, i1 = 1] }
+
+#distance vector set : { [i0 = 1, i1 = 1] }
+
+#distance vector set : { [i0 = 1, i1 = 0] }
+
+#delta:
+{ [i0, i1] : 0 < i0 <= 99 and i1 >= -98 + i0 and i1 >= 0 }
+
+#dim [i0]: is bounded
+
+#dim [i1]: is parameter, is positive
+
+#delta analyze stop
+
+#create tile equations start
+
+#tile equations: {[d0, b0, c0, a1, a2] : exists b1, c1, b2, c2 : ((b1 = a1 and a1 >= 0) or (b1 = -a1 and a1 < 0)) and ((c1 = -1 and a1 >= 0) or (c1 = 0 and a1 < 0)) and ((b2 = a2 and a2 >= 0) or (b2 = -a2 and a2 < 0)) and ((c2 = -1 and a2 >= 0) or (c2 = 0 and a2 < 0)) and b0 > 0 and b0 = b1 + b2 and c0 = c1 + c2 and a2 >= 0  and ( 1 = 0  or a1 != 0  or a2 != 0  )  and 99*a1 + 2*a2 >= 0 and 99*a1 + 1*a2 >= 0 and 1*a1 + 1*a2 >= 0 and 1*a1 + 0*a2 >= 0 }
+
+#parallel free equation: {[d0, b0, c0, a1, a2] : exists b1, c1, b2, c2 : ((b1 = a1 and a1 >= 0) or (b1 = -a1 and a1 < 0)) and ((c1 = -1 and a1 >= 0) or (c1 = 0 and a1 < 0)) and ((b2 = a2 and a2 >= 0) or (b2 = -a2 and a2 < 0)) and ((c2 = -1 and a2 >= 0) or (c2 = 0 and a2 < 0)) and b0 > 0 and b0 = b1 + b2 and c0 = c1 + c2 and a2 >= 0  and ( 1 = 0  or a1 != 0  or a2 != 0  )  and 99*a1 + 2*a2 = 0 and 99*a1 + 1*a2 = 0 and 1*a1 + 1*a2 = 0 and 1*a1 + 0*a2 = 0 }
+
+#create tile equations stop
+
+#create hyperplanes start
+
+#hyperplane for dim parallel free: lexmin( {[d0 = 0, b0, c0, a1, a2] : a1 != 0 } * {[d0, b0, c0, a1, a2] : exists b1, c1, b2, c2 : ((b1 = a1 and a1 >= 0) or (b1 = -a1 and a1 < 0)) and ((c1 = -1 and a1 >= 0) or (c1 = 0 and a1 < 0)) and ((b2 = a2 and a2 >= 0) or (b2 = -a2 and a2 < 0)) and ((c2 = -1 and a2 >= 0) or (c2 = 0 and a2 < 0)) and b0 > 0 and b0 = b1 + b2 and c0 = c1 + c2 and a2 >= 0  and ( 1 = 0  or a1 != 0  or a2 != 0  )  and 99*a1 + 2*a2 = 0 and 99*a1 + 1*a2 = 0 and 1*a1 + 1*a2 = 0 and 1*a1 + 0*a2 = 0 } )
+
+#result: { [d0, b0, c0, a1, a2] : false }
+
+#hyperplane: { [a1, a2] : false }
+
+#hyperplane check: hyperplane is empty 
+
+#result: false
+
+#hyperplane for dim parallel free: lexmin( {[d0 = 0, b0, c0, a1, a2] : a2 != 0 } * {[d0, b0, c0, a1, a2] : exists b1, c1, b2, c2 : ((b1 = a1 and a1 >= 0) or (b1 = -a1 and a1 < 0)) and ((c1 = -1 and a1 >= 0) or (c1 = 0 and a1 < 0)) and ((b2 = a2 and a2 >= 0) or (b2 = -a2 and a2 < 0)) and ((c2 = -1 and a2 >= 0) or (c2 = 0 and a2 < 0)) and b0 > 0 and b0 = b1 + b2 and c0 = c1 + c2 and a2 >= 0  and ( 1 = 0  or a1 != 0  or a2 != 0  )  and 99*a1 + 2*a2 = 0 and 99*a1 + 1*a2 = 0 and 1*a1 + 1*a2 = 0 and 1*a1 + 0*a2 = 0 } )
+
+#result: { [d0, b0, c0, a1, a2] : false }
+
+#hyperplane: { [a1, a2] : false }
+
+#hyperplane check: hyperplane is empty 
+
+#result: false
+
+#hyperplane for dim: lexmin( {[d0 = 0, b0, c0, a1, a2] : a1 != 0 } * {[d0, b0, c0, a1, a2] : exists b1, c1, b2, c2 : ((b1 = a1 and a1 >= 0) or (b1 = -a1 and a1 < 0)) and ((c1 = -1 and a1 >= 0) or (c1 = 0 and a1 < 0)) and ((b2 = a2 and a2 >= 0) or (b2 = -a2 and a2 < 0)) and ((c2 = -1 and a2 >= 0) or (c2 = 0 and a2 < 0)) and b0 > 0 and b0 = b1 + b2 and c0 = c1 + c2 and a2 >= 0  and ( 1 = 0  or a1 != 0  or a2 != 0  )  and 99*a1 + 2*a2 >= 0 and 99*a1 + 1*a2 >= 0 and 1*a1 + 1*a2 >= 0 and 1*a1 + 0*a2 >= 0 } )
+
+#result: { [d0 = 0, b0 = 1, c0 = -2, a1 = 1, a2 = 0] }
+
+#hyperplane: { [a1 = 1, a2 = 0] }
+
+#hyperplane check: first hyperplane 
+
+#result: true
+
+#hyperplane for dim: lexmin( {[d0 = 0, b0, c0, a1, a2] : a2 != 0 } * {[d0, b0, c0, a1, a2] : exists b1, c1, b2, c2 : ((b1 = a1 and a1 >= 0) or (b1 = -a1 and a1 < 0)) and ((c1 = -1 and a1 >= 0) or (c1 = 0 and a1 < 0)) and ((b2 = a2 and a2 >= 0) or (b2 = -a2 and a2 < 0)) and ((c2 = -1 and a2 >= 0) or (c2 = 0 and a2 < 0)) and b0 > 0 and b0 = b1 + b2 and c0 = c1 + c2 and a2 >= 0  and ( 1 = 0  or a1 != 0  or a2 != 0  )  and 99*a1 + 2*a2 >= 0 and 99*a1 + 1*a2 >= 0 and 1*a1 + 1*a2 >= 0 and 1*a1 + 0*a2 >= 0 } )
+
+#result: { [d0 = 0, b0 = 1, c0 = -2, a1 = 0, a2 = 1] }
+
+#hyperplane: { [a1 = 0, a2 = 1] }
+
+#hyperplane check: { : exists c1, c2 : ( c1!=0 or c2!=0 ) and c2*0 = c1*1 and c2*1 = c1*0 } = {}
+
+#result: true
+
+#create hyperplanes stop
+
+#create spaces start
+
+#part: [n] -> { [i0, i1] -> [  h0, h1, ii0 = i0, ii1 = i1] : exists bh0 : 1 * i0 + 0 * i1 - bh0 = 0 and 16 * h0 <= bh0 <= 16 * (h0 + 1) - 1 } 
+
+#part: [n] -> { [i0, i1] -> [  h0, h1, ii0 = i0, ii1 = i1] : exists bh1 : 0 * i0 + 1 * i1 - bh1 = 0 and 24 * h1 <= bh1 <= 24 * (h1 + 1) - 1 } 
+
+#spaces mapper: [n] -> { [i0, i1] -> [h0, h1, ii0 = i0, ii1 = i1] : -15 + i0 <= 16h0 <= i0 and -23 + i1 <= 24h1 <= i1 }
+
+#create spaces stop
+
+#create tile scop start
+
+#tile scop mapper: [n] -> { S_2[i0, i1] -> S_2[h0, h1, ii0 = i0, ii1 = i1] : -15 + i0 <= 16h0 <= i0 and -23 + i1 <= 24h1 <= i1 }
+
+#tile scop delta: { [h0, h1, ii0, ii1] : h0 <= 6 and ii0 >= -15 + 16h0 and 0 < ii0 <= 99 and ii0 <= 15 + 16h0 and ii1 >= -115 + 16h0 + 24h1 and ii1 >= -31 + 16h0 + 24h1 - ii0 and ii1 >= -23 + 24h1 and 0 < ii1 <= 23 + 24h1 and ii1 <= 31 + 16h0 + 24h1 - ii0; [h0, h1 = 0, ii0, ii1 = 0] : h0 <= 6 and ii0 >= -15 + 16h0 and 0 < ii0 <= 98 and ii0 <= 15 + 16h0 }
+
+#tile scop delta part: { [h0, h1 = 0, ii0, ii1 = 0] : h0 <= 6 and ii0 >= -15 + 16h0 and 0 < ii0 <= 98 and ii0 <= 15 + 16h0 }
+
+#tile scop delta part: { [h0, h1, ii0, ii1] : h0 <= 6 and ii0 >= -15 + 16h0 and 0 < ii0 <= 99 and ii0 <= 15 + 16h0 and ii1 >= -115 + 16h0 + 24h1 and ii1 >= -31 + 16h0 + 24h1 - ii0 and ii1 >= -23 + 24h1 and 0 < ii1 <= 23 + 24h1 and ii1 <= 31 + 16h0 + 24h1 - ii0 }
+
+#tile delta: { [h0, h1] : 0 <= h0 <= 6 and h1 > 0; [h0, h1 = 0] : 0 < h0 <= 6 }
+
+#create tile scop stop
+
+#tile delta analyze start
+
+#tile relatiions distance vector set: { [h0 = 6, h1 = 2] }
+
+#tile relatiions distance vector set: { [h0 = 6, h1 = 1] }
+
+#tile relatiions distance vector set: { [h0 = 0, h1 = 2] }
+
+#tile relatiions distance vector set: { [h0 = 0, h1 = 1] }
+
+#tile relatiions distance vector set: { [h0 = 6, h1 = 0] }
+
+#tile relatiions distance vector set: { [h0 = 1, h1 = 0] }
+
+#tile delta analyze stop
+
+#create wafefront equations start
+
+#wafefront equations: {[d0, b0, c0, a1, a2] : exists b1, b2 : ((b1 = a1 and a1 >= 0) or (b1 = -a1 and a1 < 0)) and ((b2 = a2 and a2 >= 0) or (b2 = -a2 and a2 < 0)) and b0 > 0 and b0 = b1 + b2 and 6*a1 + 2*a2 > 0 and 0*a1 + 2*a2 > 0 and 6*a1 + 1*a2 > 0 and 0*a1 + 1*a2 > 0 and 6*a1 + 0*a2 > 0 and 1*a1 + 0*a2 > 0 }
+
+#create wafefront equations stop
+
+#calculate wafefront hyperplane start
+
+#wafefront hyperplane: lexmin( {[d0 = 0, b0, c0, a1, a2] : exists c1, c2 : ((c1 = -1 and a1 >= 0) or (c1 = 0 and a1 < 0)) and ((c2 = -1 and a2 >= 0) or (c2 = 0 and a2 < 0)) and c0 = c1 + c2 and a1 != 0 and a2 != 0} * {[d0, b0, c0, a1, a2] : exists b1, b2 : ((b1 = a1 and a1 >= 0) or (b1 = -a1 and a1 < 0)) and ((b2 = a2 and a2 >= 0) or (b2 = -a2 and a2 < 0)) and b0 > 0 and b0 = b1 + b2 and 6*a1 + 2*a2 > 0 and 0*a1 + 2*a2 > 0 and 6*a1 + 1*a2 > 0 and 0*a1 + 1*a2 > 0 and 6*a1 + 0*a2 > 0 and 1*a1 + 0*a2 > 0 } )
+
+#result: { [d0 = 0, b0 = 2, c0 = -2, a1 = 1, a2 = 1] }
+
+#wafefront hyperplane: { [a1 = 1, a2 = 1] }
+
+#calculate wafefront hyperplane stop
+
+#create wafefront schedule start
+
+#part: [n] -> { S_2[i0, i1] -> [0, w0, h0, h1, tw0, i0, i1] : exists  bw0, bh0, th0, bh1, th1 : 1 = 1  and 1 * i0 + 0 * i1 - bh0 = 0 and 16 * h0 <= bh0 <= 16 * (h0 + 1) - 1 and 1 * th0 <= bh0 <= 1 * (th0 + 1) - 1 and 0 * i0 + 1 * i1 - bh1 = 0 and 24 * h1 <= bh1 <= 24 * (h1 + 1) - 1 and 1 * th1 <= bh1 <= 1 * (th1 + 1) - 1 and bw0 = 1 * th0 + 1 * th1 and w0 = 1 * h0 + 1 * h1 and tw0 = 0 } 
+
+#wafefront schedule: [n] -> { S_2[i0, i1] -> [0, w0, h0, h1 = w0 - h0, tw0 = 0, i0, i1] : -15 + i0 <= 16h0 <= i0 and -i1 + 24w0 <= 24h0 <= 23 - i1 + 24w0 }
+
+#create wafefront schedule stop
+
+#create code start
+
+#wafefront code: [n] -> { S_2[c0, c1] -> [0, w0, h0, h1 = w0 - h0, tw0 = 0, c0, c1] : c0 >= 0 and c0 < c1 < n and -15 + c0 <= 16h0 <= c0 and -c1 + 24w0 <= 24h0 <= 23 - c1 + 24w0 }
+
+#create code stop
+
+#loop tile stop
+
+#######################################################################
+
+#######################################################################
+
+#global schedule:
+[n] -> { S_2[c0, c1] -> [0, w0, h0, h1 = w0 - h0, tw0 = 0, c0, c1] : c0 >= 0 and c0 < c1 < n and -15 + c0 <= 16h0 <= c0 and -c1 + 24w0 <= 24h0 <= 23 - c1 + 24w0 }
+
+#######################################################################
+
+#######################################################################
+
+#Does global schedule respects oryginal loop RaW deps? -> True
+
+#Does global schedule respects oryginal loop WaW deps? -> True
+
+#Does global schedule respects oryginal loop WaR deps? -> True
+
+#######################################################################
